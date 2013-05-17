@@ -1,9 +1,9 @@
 module Paranoia
-  def self.included(klazz)
-    klazz.extend Query
+  def self.included(base)
+    base.extend ClassMethods
   end
 
-  module Query
+  module ClassMethods
     def paranoid? ; true ; end
 
     def only_deleted
