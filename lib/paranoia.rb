@@ -4,7 +4,7 @@ module Paranoia
   end
 
   module ClassMethods
-    def paranoid? ; true ; end
+    def paranoid?; true; end
 
     def only_deleted
       all.tap { |r| r.default_scoped = false }.where("#{self.table_name}.deleted_at is not null")
@@ -49,7 +49,7 @@ class ActiveRecord::Base
   end
 
   def self.paranoid? ; false ; end
-  def paranoid? ; self.class.paranoid? ; end
+  def paranoid?; self.class.paranoid?; end
 
   # Override the persisted method to allow for the paranoia gem.
   # If a paranoid record is selected, then we only want to check
