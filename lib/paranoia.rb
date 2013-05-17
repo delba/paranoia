@@ -42,7 +42,7 @@ class ActiveRecord::Base
     default_scope { where(deleted_at: nil) }
   end
 
-  def self.paranoid? ; false ; end
+  def self.paranoid?; false; end
   def paranoid?; self.class.paranoid?; end
 
   # Override the persisted method to allow for the paranoia gem.
