@@ -31,13 +31,13 @@ module Paranoia
   def destroyed?
     !!deleted_at
   end
-  alias :deleted? :destroyed?
+  alias deleted? destroyed?
 end
 
 class ActiveRecord::Base
   def self.acts_as_paranoid
-    alias :destroy! :destroy
-    alias :delete!  :delete
+    alias destroy! destroy
+    alias delete!  delete
     include Paranoia
     default_scope { where(:deleted_at => nil) }
   end
