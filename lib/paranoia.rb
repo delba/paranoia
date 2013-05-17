@@ -6,12 +6,12 @@ module Paranoia
   module ClassMethods
     def paranoid?; true; end
 
-    def only_deleted
-      all.tap { |r| r.default_scoped = false }.where.not(deleted_at: nil)
-    end
-
     def with_deleted
       all.tap { |r| r.default_scoped = false }
+    end
+
+    def only_deleted
+      with_deleted.where.not(deleted_at: nil)
     end
   end
 
