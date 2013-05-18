@@ -3,18 +3,6 @@ module Paranoia
     base.extend ClassMethods
   end
 
-  module ClassMethods
-    def paranoid?; true; end
-
-    def with_deleted
-      all.tap { |r| r.default_scoped = false }
-    end
-
-    def only_deleted
-      with_deleted.where.not(deleted_at: nil)
-    end
-  end
-
   def destroy
     run_callbacks(:destroy) { delete }
   end
@@ -32,6 +20,18 @@ module Paranoia
     !!deleted_at
   end
   alias deleted? destroyed?
+
+  module ClassMethods
+    def paranoid?; true; end
+
+    def with_deleted
+      all.tap { |r| r.default_scoped = false }
+    end
+
+    def only_deleted
+      with_deleted.where.not(deleted_at: nil)
+    end
+  end
 end
 
 class ActiveRecord::Base
