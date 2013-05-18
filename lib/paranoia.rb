@@ -1,6 +1,9 @@
 module Paranoia
   def self.included(base)
     base.extend ClassMethods
+    base.class_exec do
+      default_scope { where(deleted_at: nil) }
+    end
   end
 
   def destroy
@@ -39,7 +42,6 @@ class ActiveRecord::Base
     alias destroy! destroy
     alias delete!  delete
     include Paranoia
-    default_scope { where(deleted_at: nil) }
   end
 
   def self.paranoid?; false; end
