@@ -19,22 +19,6 @@ ActiveRecord::Base.connection.execute 'CREATE TABLE employees (id INTEGER NOT NU
 ActiveRecord::Base.connection.execute 'CREATE TABLE jobs (id INTEGER NOT NULL PRIMARY KEY, employer_id INTEGER NOT NULL, employee_id INTEGER NOT NULL, deleted_at DATETIME)'
 
 class ParanoiaTest < Test::Unit::TestCase
-  def test_plain_model_class_is_not_paranoid
-    assert_equal false, PlainModel.paranoid?
-  end
-
-  def test_paranoid_model_class_is_paranoid
-    assert_equal true, ParanoidModel.paranoid?
-  end
-
-  def test_plain_models_are_not_paranoid
-    assert_equal false, PlainModel.new.paranoid?
-  end
-
-  def test_paranoid_models_are_paranoid
-    assert_equal true, ParanoidModel.new.paranoid?
-  end
-
   def test_paranoid_models_to_param
     model = ParanoidModel.new
     model.save

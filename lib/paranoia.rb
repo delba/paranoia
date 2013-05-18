@@ -24,9 +24,11 @@ module Paranoia
   end
   alias deleted? destroyed?
 
-  module ClassMethods
-    def paranoid?; true; end
+  def persisted?
+    !new_record?
+  end
 
+  module ClassMethods
     def with_deleted
       all.tap { |r| r.default_scoped = false }
     end
@@ -42,15 +44,5 @@ class ActiveRecord::Base
     alias destroy! destroy
     alias delete!  delete
     include Paranoia
-  end
-
-  def self.paranoid?; false; end
-  def paranoid?; self.class.paranoid?; end
-
-  # Override the persisted method to allow for the paranoia gem.
-  # If a paranoid record is selected, then we only want to check
-  # if it's a new record, not if it is "destroyed".
-  def persisted?
-    paranoid? ? !new_record? : super
   end
 end
