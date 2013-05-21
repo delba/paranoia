@@ -10,9 +10,17 @@ module Paranoia
     run_callbacks(:destroy) { delete }
   end
 
+  def destroy!
+    ActiveRecord::Base.instance_method(:destroy).bind(self).call
+  end
+
   def delete
     return if new_record? or destroyed?
     update_column :deleted_at, Time.now
+  end
+
+  def delete!
+    ActiveRecord::Base.instance_method(:delete).bind(self).call
   end
 
   def restore!
@@ -41,8 +49,6 @@ end
 
 class ActiveRecord::Base
   def self.acts_as_paranoid
-    alias destroy! destroy
-    alias delete!  delete
     include Paranoia
   end
 end
