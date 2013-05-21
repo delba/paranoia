@@ -60,7 +60,7 @@ class ParanoiaTest < Minitest::Unit::TestCase
     assert_equal 0, model.class.count
     assert_equal 1, model.class.unscoped.count
   end
-  
+
   def test_scoping_behavior_for_paranoid_models
     ParanoidModel.unscoped.delete_all
     parent1 = ParentModel.create
@@ -207,12 +207,12 @@ class ParentModel < ActiveRecord::Base
 end
 
 class ParanoidModel < ActiveRecord::Base
+  include Paranoia
   belongs_to :parent_model
-  acts_as_paranoid
 end
 
 class FeaturefulModel < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   validates :name, presence: true, uniqueness: true
 end
 
@@ -220,34 +220,34 @@ class PlainModel < ActiveRecord::Base
 end
 
 class CallbackModel < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   before_destroy {|model| model.instance_variable_set :@callback_called, true }
 end
 
 class ParentModel < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   has_many :related_models
 end
 
 class RelatedModel < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   belongs_to :parent_model
 end
 
 class Employer < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   has_many :jobs
   has_many :employees, through: :jobs
 end
 
 class Employee < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   has_many :jobs
   has_many :employers, through: :jobs
 end
 
 class Job < ActiveRecord::Base
-  acts_as_paranoid
+  include Paranoia
   belongs_to :employer
   belongs_to :employee
 end

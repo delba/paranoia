@@ -46,9 +46,3 @@ module Paranoia
     end
   end
 end
-
-class ActiveRecord::Base
-  def self.acts_as_paranoid
-    include Paranoia
-  end
-end
