@@ -2,7 +2,7 @@ gem 'minitest', '4.7.4'
 require 'minitest/autorun'
 
 require 'active_record'
-require File.expand_path(File.dirname(__FILE__) + "/../lib/paranoia")
+require_relative '../lib/paranoia'
 
 DB_FILE = 'tmp/test_db'
 
