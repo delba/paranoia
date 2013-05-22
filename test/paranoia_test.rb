@@ -4,7 +4,6 @@ require 'active_record'
 require_relative '../lib/paranoia'
 
 class ParanoiaTest < Minitest::Unit::TestCase
-
   i_suck_and_my_tests_are_order_dependent!
 
   def test_paranoid_models_to_param
@@ -236,7 +235,6 @@ ActiveRecord::Migration.class_exec do
     t.datetime :deleted_at
   end
 end
-
 
 # Helper classes
 
