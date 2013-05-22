@@ -57,7 +57,7 @@ class ParanoiaTest < Minitest::Unit::TestCase
   end
 
   def test_destroy_behavior_for_featureful_paranoid_models
-    model = get_featureful_model
+    model = FeaturefulModel.new(name: "not empty")
     assert_equal 0, model.class.count
     model.save!
     assert_equal 1, model.class.count
@@ -164,12 +164,6 @@ class ParanoiaTest < Minitest::Unit::TestCase
     model.delete!
 
     refute ParanoidModel.unscoped.exists?(model.id)
-  end
-
-private
-
-  def get_featureful_model
-    FeaturefulModel.new(name: "not empty")
   end
 end
 
