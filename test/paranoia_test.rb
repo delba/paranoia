@@ -16,44 +16,44 @@ def create_table(name, &block)
 end
 
 create_table :parent_models do |t|
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :paranoid_models do |t|
   t.references :parent_model
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :featureful_models do |t|
-  t.column :deleted_at, :datetime
-  t.column :name, :string
+  t.string :name
+  t.datetime :deleted_at
 end
 
 create_table :plain_models do |t|
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :callback_models do |t|
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :related_models do |t|
   t.references :parent_model
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :employers do |t|
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :employees do |t|
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 create_table :jobs do |t|
   t.references :employer
   t.references :employee
-  t.column :deleted_at, :datetime
+  t.datetime :deleted_at
 end
 
 class ParanoiaTest < Minitest::Unit::TestCase
