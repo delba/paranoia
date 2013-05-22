@@ -1,5 +1,6 @@
 gem 'minitest', '4.7.4'
 require 'minitest/autorun'
+require 'minitest/pride'
 require 'active_record'
 require_relative '../lib/paranoia'
 
