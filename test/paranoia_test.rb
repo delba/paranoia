@@ -7,8 +7,7 @@ class ParanoiaTest < Minitest::Unit::TestCase
   i_suck_and_my_tests_are_order_dependent!
 
   def test_paranoid_models_to_param
-    model = ParanoidModel.new
-    model.save
+    model = ParanoidModel.create
     to_param = model.to_param
 
     model.destroy
@@ -79,11 +78,9 @@ class ParanoiaTest < Minitest::Unit::TestCase
   end
 
   def test_only_destroyed_scope_for_paranoid_models
-    model = ParanoidModel.new
-    model.save
+    model = ParanoidModel.create
     model.destroy
-    model2 = ParanoidModel.new
-    model2.save
+    model2 = ParanoidModel.create
 
     assert_equal model, ParanoidModel.only_deleted.last
     refute_includes ParanoidModel.only_deleted, model2
@@ -131,22 +128,19 @@ class ParanoiaTest < Minitest::Unit::TestCase
   end
 
   def test_delete_behavior_for_callbacks
-    model = CallbackModel.new
-    model.save
+    model = CallbackModel.create
     model.delete
     assert_nil model.instance_variable_get(:@callback_called)
   end
 
   def test_destroy_behavior_for_callbacks
-    model = CallbackModel.new
-    model.save
+    model = CallbackModel.create
     model.destroy
     assert model.instance_variable_get(:@callback_called)
   end
 
   def test_restore
-    model = ParanoidModel.new
-    model.save
+    model = ParanoidModel.create
     id = model.id
     model.destroy
 
@@ -160,16 +154,14 @@ class ParanoiaTest < Minitest::Unit::TestCase
   end
 
   def test_real_destroy
-    model = ParanoidModel.new
-    model.save
+    model = ParanoidModel.create
     model.destroy!
 
     refute ParanoidModel.unscoped.exists?(model.id)
   end
 
   def test_real_delete
-    model = ParanoidModel.new
-    model.save
+    model = ParanoidModel.create
     model.delete!
 
     refute ParanoidModel.unscoped.exists?(model.id)
