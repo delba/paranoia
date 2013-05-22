@@ -167,6 +167,58 @@ class ParanoiaTest < Minitest::Unit::TestCase
   end
 end
 
+# Helper classes
+
+class ParentModel < ActiveRecord::Base
+  has_many :paranoid_models
+end
+
+class ParanoidModel < ActiveRecord::Base
+  include Paranoia
+  belongs_to :parent_model
+end
+
+class FeaturefulModel < ActiveRecord::Base
+  include Paranoia
+  validates :name, presence: true, uniqueness: true
+end
+
+class PlainModel < ActiveRecord::Base
+end
+
+class CallbackModel < ActiveRecord::Base
+  include Paranoia
+  before_destroy {|model| model.instance_variable_set :@callback_called, true }
+end
+
+class ParentModel < ActiveRecord::Base
+  include Paranoia
+  has_many :related_models
+end
+
+class RelatedModel < ActiveRecord::Base
+  include Paranoia
+  belongs_to :parent_model
+end
+
+class Employer < ActiveRecord::Base
+  include Paranoia
+  has_many :jobs
+  has_many :employees, through: :jobs
+end
+
+class Employee < ActiveRecord::Base
+  include Paranoia
+  has_many :jobs
+  has_many :employers, through: :jobs
+end
+
+class Job < ActiveRecord::Base
+  include Paranoia
+  belongs_to :employer
+  belongs_to :employee
+end
+
 # Migrations
 
 DB_FILE = 'tmp/test_db'
@@ -219,56 +271,4 @@ ActiveRecord::Migration.class_exec do
     t.references :employee
     t.datetime :deleted_at
   end
-end
-
-# Helper classes
-
-class ParentModel < ActiveRecord::Base
-  has_many :paranoid_models
-end
-
-class ParanoidModel < ActiveRecord::Base
-  include Paranoia
-  belongs_to :parent_model
-end
-
-class FeaturefulModel < ActiveRecord::Base
-  include Paranoia
-  validates :name, presence: true, uniqueness: true
-end
-
-class PlainModel < ActiveRecord::Base
-end
-
-class CallbackModel < ActiveRecord::Base
-  include Paranoia
-  before_destroy {|model| model.instance_variable_set :@callback_called, true }
-end
-
-class ParentModel < ActiveRecord::Base
-  include Paranoia
-  has_many :related_models
-end
-
-class RelatedModel < ActiveRecord::Base
-  include Paranoia
-  belongs_to :parent_model
-end
-
-class Employer < ActiveRecord::Base
-  include Paranoia
-  has_many :jobs
-  has_many :employees, through: :jobs
-end
-
-class Employee < ActiveRecord::Base
-  include Paranoia
-  has_many :jobs
-  has_many :employers, through: :jobs
-end
-
-class Job < ActiveRecord::Base
-  include Paranoia
-  belongs_to :employer
-  belongs_to :employee
 end
