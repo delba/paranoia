@@ -1,60 +1,7 @@
 gem 'minitest', '4.7.4'
 require 'minitest/autorun'
-
 require 'active_record'
 require_relative '../lib/paranoia'
-
-DB_FILE = 'tmp/test_db'
-
-FileUtils.mkdir_p File.dirname(DB_FILE)
-FileUtils.rm_f DB_FILE
-
-ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: DB_FILE
-
-ActiveRecord::Migration.class_exec do
-  self.verbose = false
-
-  create_table :parent_models do |t|
-    t.datetime :deleted_at
-  end
-
-  create_table :paranoid_models do |t|
-    t.references :parent_model
-    t.datetime :deleted_at
-  end
-
-  create_table :featureful_models do |t|
-    t.string :name
-    t.datetime :deleted_at
-  end
-
-  create_table :plain_models do |t|
-    t.datetime :deleted_at
-  end
-
-  create_table :callback_models do |t|
-    t.datetime :deleted_at
-  end
-
-  create_table :related_models do |t|
-    t.references :parent_model
-    t.datetime :deleted_at
-  end
-
-  create_table :employers do |t|
-    t.datetime :deleted_at
-  end
-
-  create_table :employees do |t|
-    t.datetime :deleted_at
-  end
-
-  create_table :jobs do |t|
-    t.references :employer
-    t.references :employee
-    t.datetime :deleted_at
-  end
-end
 
 class ParanoiaTest < Minitest::Unit::TestCase
 
@@ -235,6 +182,61 @@ private
     FeaturefulModel.new(name: "not empty")
   end
 end
+
+# Migrations
+
+DB_FILE = 'tmp/test_db'
+
+FileUtils.mkdir_p File.dirname(DB_FILE)
+FileUtils.rm_f DB_FILE
+
+ActiveRecord::Base.establish_connection adapter: 'sqlite3', database: DB_FILE
+
+ActiveRecord::Migration.class_exec do
+  self.verbose = false
+
+  create_table :parent_models do |t|
+    t.datetime :deleted_at
+  end
+
+  create_table :paranoid_models do |t|
+    t.references :parent_model
+    t.datetime :deleted_at
+  end
+
+  create_table :featureful_models do |t|
+    t.string :name
+    t.datetime :deleted_at
+  end
+
+  create_table :plain_models do |t|
+    t.datetime :deleted_at
+  end
+
+  create_table :callback_models do |t|
+    t.datetime :deleted_at
+  end
+
+  create_table :related_models do |t|
+    t.references :parent_model
+    t.datetime :deleted_at
+  end
+
+  create_table :employers do |t|
+    t.datetime :deleted_at
+  end
+
+  create_table :employees do |t|
+    t.datetime :deleted_at
+  end
+
+  create_table :jobs do |t|
+    t.references :employer
+    t.references :employee
+    t.datetime :deleted_at
+  end
+end
+
 
 # Helper classes
 
