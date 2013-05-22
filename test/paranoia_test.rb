@@ -4,8 +4,6 @@ require 'active_record'
 require_relative '../lib/paranoia'
 
 class ParanoiaTest < Minitest::Unit::TestCase
-  i_suck_and_my_tests_are_order_dependent!
-
   def test_paranoid_models_to_param
     model = ParanoidModel.create
     to_param = model.to_param
@@ -30,6 +28,7 @@ class ParanoiaTest < Minitest::Unit::TestCase
   end
 
   def test_destroy_behavior_for_paranoid_models
+    ParanoidModel.unscoped.delete_all
     model = ParanoidModel.new
     assert_equal 0, model.class.count
     model.save!
