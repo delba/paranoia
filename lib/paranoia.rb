@@ -1,9 +1,8 @@
 module Paranoia
-  def self.included(base)
-    base.extend ClassMethods
-    base.class_exec do
-      default_scope { where(deleted_at: nil) }
-    end
+  extend ActiveSupport::Concern
+
+  included do
+    default_scope { where(deleted_at: nil) }
   end
 
   def destroy
