@@ -153,6 +153,14 @@ class ParanoiaTest < Minitest::Unit::TestCase
     refute model.destroyed?
   end
 
+  def test_restore_returns_unless_destroyed
+    model = ParanoidModel.create
+    assert_nil model.restore!
+
+    model = ParanoidModel.new
+    assert_nil model.restore!
+  end
+
   def test_real_destroy
     model = ParanoidModel.create
     model.destroy!

@@ -23,6 +23,7 @@ module Paranoia
   end
 
   def restore!
+    return unless destroyed?
     update_column :deleted_at, nil
   end
 
